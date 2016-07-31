@@ -14,7 +14,7 @@ use Symfony\Component\BrowserKit\Response;
 class RouterController extends Controller
 {
     /**
-     * @Route("/show/{slug}")
+     * @Route("/show/{slug}",name="router_show")
      */
     public function showAction($slug = '')
     {
@@ -51,6 +51,36 @@ class RouterController extends Controller
             'year' => $year,
             'title' => $title
         ));
+    }
+
+    /**
+     * 根据路由规则，生成一个URL
+     * 使用generateUrl方法
+     * 第一个参数：路由的名称；
+     * 第二个参数：附带的查询参数
+     * @Route("/generate_url/page/{page}",
+     *  defaults={"page":1},
+     *  name="router_generate_url")
+     */
+    public function generateUrlAction($page)
+    {
+        // /blog/my-blog-post
+        $url = $this->generateUrl(
+            'router_generate_url',
+            array(
+                'page' => $page,
+            )
+        );
+
+        // 上面的写法是一种简洁的写法，其实他的真实调用情况是是下面的
+        // 这里涉及到Container（容器）的概念，我们这里不做过多的讲解。
+        // $url = $this->container->get('router')->generate(
+        //     'blog_show',
+        //     array('slug' => 'my-blog-post')
+        // );
+
+        echo $url;
+        exit;
     }
 
 }
