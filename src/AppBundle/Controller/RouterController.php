@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class RouterController
@@ -43,7 +44,6 @@ class RouterController extends Controller
      *    year   必须是大于1位的数字
      *
      */
-
     public function advancedAction($_locale, $year, $title)
     {
         return $this->render('AppBundle:Router:show.html.twig', array(
@@ -79,6 +79,19 @@ class RouterController extends Controller
         //     array('slug' => 'my-blog-post')
         // );
 
+        echo $url;
+        exit;
+    }
+
+    /**
+     * 生成一个绝对路径的URL
+     * @Route("/generate_absolute_url/page/{page}",
+     *     defaults={"page":1},
+     *     name="generate_absolute_url")
+     */
+    public function generate_absolute_urlAction($page)
+    {
+        $url = $this->generateUrl('generate_absolute_url', array('page' => $page), UrlGeneratorInterface::ABSOLUTE_URL);
         echo $url;
         exit;
     }
